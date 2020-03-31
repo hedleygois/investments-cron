@@ -25,4 +25,4 @@ setInterval(() => {
       findAndSaveStock("HGRU11.SAO");
     }, 4 * ONE_MINUTE);
   }
-}, ONE_MINUTE);
+}, 60 * ONE_MINUTE);
