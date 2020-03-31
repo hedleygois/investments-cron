@@ -1,0 +1,35 @@
+{
+  "name": "investments-cron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "App.js",
+  "scripts": {
+    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "node dist/App.js",
+    "dev": "ts-node-dev src/App.ts",
+    "test": "jest --config jest.config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fp-ts": "^2.0.5",
+    "got": "^10.2.2",
+    "jest": "^24.9.0",
+    "ramda": "^0.26.1",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/got": "^9.6.9",
+    "@types/jest": "^24.0.18",
+    "@types/ramda": "^0.26.19",
+    "@types/uuid": "^3.4.5",
+    "nodemon": "^2.0.2",
+    "ts-jest": "^24.0.2",
+    "ts-node-dev": "^1.0.0-pre.40",
+    "tslint": "^5.18.0",
+    "typescript": "^3.7.0"
+  }
+}
