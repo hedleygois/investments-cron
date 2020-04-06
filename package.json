@@ -4,7 +4,7 @@
   "description": "",
   "main": "App.js",
   "scripts": {
-    "build": "tsc",
+    "build": "./node_modules/typescript/bin/tsc",
     "prestart": "npm run build",
     "start": "node dist/App.js",
     "dev": "ts-node-dev src/App.ts",
