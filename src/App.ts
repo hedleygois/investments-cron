@@ -2,7 +2,7 @@ import { findAndSaveStock } from "./util/StockUtil";
 
 const ONE_MINUTE = 60001;
 
-console.info("Starting....");
+console.info("Started....");
 
 if (!process.env.HASURA_HEADER || !process.env.HASURA_KEY || !process.env.ALPHAVANTAGE_KEY) {
   console.info("Please set your Hasura or AlphaVantage keys.");
