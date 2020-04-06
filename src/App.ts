@@ -9,8 +9,7 @@ if (!process.env.HASURA_HEADER || !process.env.HASURA_KEY || !process.env.ALPHAV
 }
 
 setInterval(() => {
-  const hour = new Date().getUTCHours();
-  // if (hour === 21) {
+  try {
     setTimeout(() => {
       findAndSaveStock("TAEE11.SAO");
       // findAndSaveStock("RAIL3.SAO");
@@ -18,6 +17,12 @@ setInterval(() => {
       // findAndSaveStock("VVAR3.SAO");
       // findAndSaveStock("BPAC11.SAO");
     }, 0);
+
+  } catch (e) {
+    console.error(e)
+  }
+  // const hour = new Date().getUTCHours();
+  // if (hour === 21) {
 
     // setTimeout(() => {
     //   findAndSaveStock("B3SA3.SAO");
