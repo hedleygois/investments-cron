@@ -2,6 +2,8 @@ import { findAndSaveStock } from "./util/StockUtil";
 
 const ONE_MINUTE = 60001;
 
+console.info("Starting...");
+
 setInterval(() => {
   // const hour = new Date().getUTCHours();
   // if (hour === 21) {
