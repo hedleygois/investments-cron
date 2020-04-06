@@ -4,15 +4,19 @@ const ONE_MINUTE = 60001;
 
 console.info("Starting....");
 
+if (!process.env.HASURA_HEADER || !process.env.HASURA_KEY || !process.env.ALPHAVANTAGE_KEY) {
+  console.info("Please set your Hasura or AlphaVantage keys.");
+}
+
 setInterval(() => {
   const hour = new Date().getUTCHours();
   // if (hour === 21) {
     setTimeout(() => {
       findAndSaveStock("TAEE11.SAO");
-      findAndSaveStock("RAIL3.SAO");
-      findAndSaveStock("HBOR3.SAO");
-      findAndSaveStock("VVAR3.SAO");
-      findAndSaveStock("BPAC11.SAO");
+      // findAndSaveStock("RAIL3.SAO");
+      // findAndSaveStock("HBOR3.SAO");
+      // findAndSaveStock("VVAR3.SAO");
+      // findAndSaveStock("BPAC11.SAO");
     }, 0);
 
     // setTimeout(() => {
