@@ -4,6 +4,7 @@
   "description": "",
   "main": "App.js",
   "scripts": {
+    "build": "./node_modules/typescript/bin/tsc",
     "start": "ts-node src/App.ts",
     "dev": "ts-node-dev src/App.ts",
     "test": "jest --config jest.config.js"
