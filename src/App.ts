@@ -12,7 +12,7 @@ setInterval(() => {
   try {
     setTimeout(() => {
       findAndSaveStock("TAEE11.SAO");
-      findAndSaveStock("RAIL3.SAO");
+      // findAndSaveStock("RAIL3.SAO");
       // findAndSaveStock("HBOR3.SAO");
       // findAndSaveStock("VVAR3.SAO");
       // findAndSaveStock("BPAC11.SAO");
