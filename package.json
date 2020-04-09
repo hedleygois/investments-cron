@@ -9,6 +9,9 @@
     "dev": "ts-node-dev src/App.ts",
     "test": "jest --config jest.config.js"
   },
+  "engines": {
+    "node": "10.x"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
