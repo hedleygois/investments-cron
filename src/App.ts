@@ -7,7 +7,7 @@ import morgan from "morgan"; // This library adds some logging capabilities to y
 import { findAndSaveStock } from "./util/StockUtil";
 
 const app = express();
-const port = 4000 || process.env.PORT;
+const port = process.env.PORT || 4000;
 
 const server = new http.Server(app);
 
