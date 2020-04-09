@@ -23,7 +23,7 @@ app.use(cors());
 // adding morgan to log HTTP requests
 app.use(morgan("combined"));
 
-const ONE_MINUTE = 60001;
+const ONE_HOUR = 60 * 60001;
 
 console.info("Started....");
 
@@ -51,26 +51,27 @@ router.get(
 app.use("/intraday", router);
 
 setInterval(() => {
-  // const hour = new Date().getUTCHours();
-  // if (hour === 21) {
+  // fetch intraday in the future
+  const hour = new Date().getUTCHours();
+  if (hour === 23) {
+    setTimeout(() => {
+      findAndSaveStock("TAEE11.SAO");
+      findAndSaveStock("RAIL3.SAO");
+      findAndSaveStock("HBOR3.SAO");
+      findAndSaveStock("VVAR3.SAO");
+      findAndSaveStock("BPAC11.SAO");
+    }, 0);
 
-  setTimeout(() => {
-    findAndSaveStock("TAEE11.SAO");
-    findAndSaveStock("RAIL3.SAO");
-    findAndSaveStock("HBOR3.SAO");
-    findAndSaveStock("VVAR3.SAO");
-    findAndSaveStock("BPAC11.SAO");
-  }, 0);
+    setTimeout(() => {
+      findAndSaveStock("B3SA3.SAO");
+      findAndSaveStock("RBRR11.SAO");
+      findAndSaveStock("VISC11.SAO");
+      findAndSaveStock("HGLG11.SAO");
+      findAndSaveStock("BBPO11.SAO");
+    }, 2 * ONE_HOUR);
 
-  setTimeout(() => {
-    findAndSaveStock("B3SA3.SAO");
-    findAndSaveStock("RBRR11.SAO");
-    findAndSaveStock("VISC11.SAO");
-    findAndSaveStock("HGLG11.SAO");
-    findAndSaveStock("BBPO11.SAO");
-  }, 2 * ONE_MINUTE);
-
-  setTimeout(() => {
-    findAndSaveStock("HGRU11.SAO");
-  }, 4 * ONE_MINUTE);
-}, 10 * ONE_MINUTE);
+    setTimeout(() => {
+      findAndSaveStock("HGRU11.SAO");
+    }, 4 * ONE_HOUR);
+  }
+}, ONE_HOUR);
