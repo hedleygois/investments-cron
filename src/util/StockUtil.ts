@@ -11,8 +11,8 @@ import got, { Response } from "got";
 import { pipe } from "fp-ts/lib/pipeable";
 import { SAVE_STOCK } from "./Queries";
 
-export const fromAdvantageStockToStock = (raw: any): Option<Stock> => {
-  return tryCatch<Stock>(() => {
+export const fromAdvantageStockToStock = (raw: any): Option<Stock> =>
+  tryCatch<Stock>(() => {
     const parsed = JSON.parse(raw);
     const data = parsed["Global Quote"];
     const keys = Object.keys(data);
@@ -29,7 +29,6 @@ export const fromAdvantageStockToStock = (raw: any): Option<Stock> => {
       changeP: Number(data[keys[9]].slice(0, data[keys[9]].length - 1)),
     };
   });
-};
 
 export const requestBodyLens: <T>(response: Response<any>) => T = view(
   lens<Response<Stock>, Stock, Stock>(prop("body"), assoc("body"))
@@ -44,7 +43,13 @@ export const findLastRemoteBySymbol = (
   ticker: string
 ): Promise<Option<Stock>> =>
   got(
-    `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${ticker}&datatType=json&apikey=${process.env.ALPHAVANTAGE_KEY}`
+    `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${ticker}&datatType=json&apikey=${process.env.ALPHAVANTAGE_KEY}`,
+    {
+      retry: {
+        calculateDelay: (retryParams) => retryParams.attemptCount * 60000,
+        retries: 10,
+      },
+    }
   )
     .then(someStock)
     .catch((e) => {
@@ -65,6 +70,10 @@ const saveStock = ({
   volume,
 }: Stock): Promise<Either<Error, any>> => {
   return got(`https://investments-graphql.herokuapp.com/v1/graphql`, {
+    retry: {
+      calculateDelay: (retryParams) => retryParams.attemptCount * 60000,
+      retries: 10,
+    },
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -115,11 +124,15 @@ export const findAndSaveStock = (symbol: string) =>
                 (hasuraData) => {
                   if (hasuraData.data) {
                     console.info(
-                      `Successfully saved on Hasura: ${symbol} - ${JSON.stringify(hasuraData.data["insert_Stock"])}`
+                      `Successfully saved on Hasura: ${symbol} - ${JSON.stringify(
+                        hasuraData.data["insert_Stock"]
+                      )}`
                     );
                   } else {
                     console.error(
-                      `Failed to save on Hasura: ${JSON.stringify(hasuraData.errors)}`
+                      `Failed to save on Hasura: ${JSON.stringify(
+                        hasuraData.errors
+                      )}`
                     );
                   }
                 }
