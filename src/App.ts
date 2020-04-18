@@ -4,7 +4,7 @@ import express from "express";
 import helmet from "helmet"; // This library helps to secure Express APIs by defining various HTTP headers.
 import http from "http";
 import morgan from "morgan"; // This library adds some logging capabilities to your Express API.
-import { findAndSaveStock } from "./util/StockUtil";
+import { findAndSaveStock, syncStocks, ONE_HOUR } from "./util/StockUtil";
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -22,8 +22,6 @@ app.use(cors());
 
 // adding morgan to log HTTP requests
 app.use(morgan("combined"));
-
-const ONE_HOUR = 60 * 60001;
 
 console.info("Started....");
 
@@ -43,9 +41,12 @@ server.listen(port, () => {
 const router = express.Router();
 
 router.get(
-  "/:ticker",
-  (req, res) => console.info("Intraday triggered")
-  // findLastByTicker(req.params.ticker)(data => res.send(data))
+  "/sync",
+  (_, res) => {
+    console.info("Intraday triggered");
+    syncStocks();
+    res.write("Intraday values will shortly be in sync...");
+  }
 );
 
 app.use("/intraday", router);
@@ -54,24 +55,6 @@ setInterval(() => {
   // fetch intraday in the future
   const hour = new Date().getUTCHours();
   if (hour === 23) {
-    setTimeout(() => {
-      findAndSaveStock("TAEE11.SAO");
-      findAndSaveStock("RAIL3.SAO");
-      findAndSaveStock("HBOR3.SAO");
-      findAndSaveStock("VVAR3.SAO");
-      findAndSaveStock("BPAC11.SAO");
-    }, 0);
-
-    setTimeout(() => {
-      findAndSaveStock("B3SA3.SAO");
-      findAndSaveStock("RBRR11.SAO");
-      findAndSaveStock("VISC11.SAO");
-      findAndSaveStock("HGLG11.SAO");
-      findAndSaveStock("BBPO11.SAO");
-    }, 2 * ONE_HOUR);
-
-    setTimeout(() => {
-      findAndSaveStock("HGRU11.SAO");
-    }, 4 * ONE_HOUR);
+   syncStocks();
   }
 }, ONE_HOUR);

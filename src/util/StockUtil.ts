@@ -11,6 +11,9 @@ import got, { Response } from "got";
 import { pipe } from "fp-ts/lib/pipeable";
 import { SAVE_STOCK } from "./Queries";
 
+export const ONE_MINUTE = 60001;
+export const ONE_HOUR = 60 * ONE_MINUTE;
+
 export const fromAdvantageStockToStock = (raw: any): Option<Stock> =>
   tryCatch<Stock>(() => {
     const parsed = JSON.parse(raw);
@@ -143,3 +146,25 @@ export const findAndSaveStock = (symbol: string) =>
       )
     )
   );
+
+export const syncStocks = () => {
+  setTimeout(() => {
+    findAndSaveStock("TAEE11.SAO");
+    findAndSaveStock("RAIL3.SAO");
+    findAndSaveStock("HBOR3.SAO");
+    findAndSaveStock("VVAR3.SAO");
+    findAndSaveStock("BPAC11.SAO");
+  }, 0);
+
+  setTimeout(() => {
+    findAndSaveStock("B3SA3.SAO");
+    findAndSaveStock("RBRR11.SAO");
+    findAndSaveStock("VISC11.SAO");
+    findAndSaveStock("HGLG11.SAO");
+    findAndSaveStock("BBPO11.SAO");
+  }, 2 * ONE_MINUTE);
+
+  setTimeout(() => {
+    findAndSaveStock("HGRU11.SAO");
+  }, 4 * ONE_MINUTE);
+};
