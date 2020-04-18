@@ -7,7 +7,7 @@ import morgan from "morgan"; // This library adds some logging capabilities to y
 import { syncStocks, ONE_HOUR } from "./util/StockUtil";
 
 const app = express();
-const port = 10050;
+const port = process.env.PORT || 4000;
 
 const server = new http.Server(app);
 
@@ -35,7 +35,7 @@ if (
 
 server.listen(port, () => {
   // tslint:disable-next-line:no-console
-  console.log(`server started...`);
+  console.log(`server started at port:  ${port}`);
 });
 
 const router = express.Router();
