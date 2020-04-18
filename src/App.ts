@@ -4,10 +4,10 @@ import express from "express";
 import helmet from "helmet"; // This library helps to secure Express APIs by defining various HTTP headers.
 import http from "http";
 import morgan from "morgan"; // This library adds some logging capabilities to your Express API.
-import { findAndSaveStock, syncStocks, ONE_HOUR } from "./util/StockUtil";
+import { syncStocks, ONE_HOUR } from "./util/StockUtil";
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = 10050;
 
 const server = new http.Server(app);
 
@@ -35,7 +35,7 @@ if (
 
 server.listen(port, () => {
   // tslint:disable-next-line:no-console
-  console.log(`server started at http://localhost:${port}`);
+  console.log(`server started...`);
 });
 
 const router = express.Router();
@@ -45,7 +45,7 @@ router.get(
   (_, res) => {
     console.info("Intraday triggered");
     syncStocks();
-    res.write("Intraday values will shortly be in sync...");
+    res.send("Intraday values will shortly be in sync...");
   }
 );
 
