@@ -149,11 +149,11 @@ export const findAndSaveStock = (symbol: string) =>
 
 export const syncStocks = () => {
   setTimeout(() => {
-    findAndSaveStock("TAEE11.SAO");
+    findAndSaveStock("HYPE3.SAO");
     findAndSaveStock("RAIL3.SAO");
     findAndSaveStock("HBOR3.SAO");
     findAndSaveStock("VVAR3.SAO");
-    findAndSaveStock("BPAC11.SAO");
+    findAndSaveStock("EZTC3.SAO");
   }, 0);
 
   setTimeout(() => {

@@ -30,7 +30,7 @@ if (
   !process.env.HASURA_KEY ||
   !process.env.ALPHAVANTAGE_KEY
 ) {
-  console.info("Please set your Hasura or AlphaVantage keys.");
+  console.warn("Please set your Hasura or AlphaVantage keys.");
 }
 
 server.listen(port, () => {
