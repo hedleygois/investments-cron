@@ -1,5 +1,4 @@
 import bodyParser from "body-parser";
-import cors from "cors";
 import express from "express";
 import helmet from "helmet"; // This library helps to secure Express APIs by defining various HTTP headers.
 import http from "http";
@@ -16,9 +15,6 @@ app.use(helmet());
 
 // using bodyParser to parse JSON bodies into JS objects
 app.use(bodyParser.json());
-
-// enabling CORS for all requests
-app.use(cors());
 
 // adding morgan to log HTTP requests
 app.use(morgan("combined"));
