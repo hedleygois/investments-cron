@@ -162,7 +162,7 @@ export const syncStocks = () => {
     findAndSaveStock("RBRR11.SAO");
     findAndSaveStock("VISC11.SAO");
     findAndSaveStock("HGLG11.SAO");
-    findAndSaveStock("BBPO11.SAO");
+    findAndSaveStock("HABT11.SAO");
   }, 2 * ONE_MINUTE);
 
   setTimeout(() => {
