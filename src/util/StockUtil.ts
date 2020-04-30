@@ -96,6 +96,7 @@ const saveStock = ({
         changeAbs,
         changeP,
         volume,
+        active: true
       },
     }),
   })
