@@ -46,11 +46,3 @@ router.get(
 );
 
 app.use("/intraday", router);
-
-setInterval(() => {
-  // fetch intraday in the future
-  const hour = new Date().getUTCHours();
-  if (hour === 23) {
-   syncStocks();
-  }
-}, ONE_HOUR);

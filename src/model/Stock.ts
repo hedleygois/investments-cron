@@ -9,4 +9,5 @@ export interface Stock {
   previous: number;
   changeAbs: number;
   changeP: number;
+  stockType: number;
 }

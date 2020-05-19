@@ -1,5 +1,4 @@
 import { Stock } from "../model/Stock";
-import { prop, view, lens, compose, assoc } from "ramda";
 import { Option, none, tryCatch, fold as foldO } from "fp-ts/lib/Option";
 import {
   tryCatch as tryCatchE,
@@ -7,14 +6,15 @@ import {
   left,
   fold as foldE,
 } from "fp-ts/lib/Either";
-import got, { Response } from "got";
+import got from "got";
 import { pipe } from "fp-ts/lib/pipeable";
 import { SAVE_STOCK } from "./Queries";
+import { StockType } from "../model/StockType";
 
 export const ONE_MINUTE = 60001;
 export const ONE_HOUR = 60 * ONE_MINUTE;
 
-export const fromAdvantageStockToStock = (raw: any): Option<Stock> =>
+export const fromAdvantageStockToStock = (stockType: number) => (raw: any): Option<Stock> =>
   tryCatch<Stock>(() => {
     const parsed = JSON.parse(raw);
     const data = parsed["Global Quote"];
@@ -30,19 +30,11 @@ export const fromAdvantageStockToStock = (raw: any): Option<Stock> =>
       previous: Number(data[keys[7]]),
       changeAbs: Number(data[keys[8]]),
       changeP: Number(data[keys[9]].slice(0, data[keys[9]].length - 1)),
+      stockType
     };
   });
 
-export const requestBodyLens: <T>(response: Response<any>) => T = view(
-  lens<Response<Stock>, Stock, Stock>(prop("body"), assoc("body"))
-);
-
-export const someStock = compose<Response<any>, any, Option<Stock>>(
-  fromAdvantageStockToStock,
-  requestBodyLens
-);
-
-export const findLastRemoteBySymbol = (
+export const findLastRemoteBySymbol = (stockType: number) => (
   ticker: string
 ): Promise<Option<Stock>> =>
   got(
@@ -54,7 +46,7 @@ export const findLastRemoteBySymbol = (
       },
     }
   )
-    .then(someStock)
+    .then((value) => fromAdvantageStockToStock(stockType)(value))
     .catch((e) => {
       console.error(e);
       return none;
@@ -111,8 +103,9 @@ const saveStock = ({
     .catch(left);
 };
 
-export const findAndSaveStock = (symbol: string) =>
-  findLastRemoteBySymbol(symbol).then((optStock) =>
+
+export const findAndSave = (stockType: number) => (symbol: string) =>
+  findLastRemoteBySymbol(stockType)(symbol).then((optStock) =>
     pipe(
       optStock,
       foldO(
@@ -148,6 +141,9 @@ export const findAndSaveStock = (symbol: string) =>
     )
   );
 
+const findAndSaveStock = findAndSave(StockType.Stock.valueOf());
+const findAndSaveFII = findAndSave(StockType.FII.valueOf());
+
 export const syncStocks = () => {
   setTimeout(() => {
     findAndSaveStock("HYPE3.SAO");
@@ -158,14 +154,15 @@ export const syncStocks = () => {
   }, 0);
 
   setTimeout(() => {
-    findAndSaveStock("B3SA3.SAO");
-    findAndSaveStock("RBRR11.SAO");
-    findAndSaveStock("VISC11.SAO");
-    findAndSaveStock("HGLG11.SAO");
-    findAndSaveStock("HABT11.SAO");
+    findAndSaveFII("RBRR11.SAO");
+    findAndSaveFII("VISC11.SAO");
+    findAndSaveFII("HGLG11.SAO");
+    findAndSaveFII("HABT11.SAO");
   }, 2 * ONE_MINUTE);
 
   setTimeout(() => {
-    findAndSaveStock("HGRU11.SAO");
+    findAndSaveFII("HGRU11.SAO");
+    findAndSaveStock("ITSA4.SAO");
+    findAndSaveStock("BOVA11.SAO");
   }, 4 * ONE_MINUTE);
 };
