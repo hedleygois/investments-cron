@@ -34,11 +34,11 @@ export const fromAdvantageStockToStock = (stockType: number) => (raw: any): Opti
     };
   });
 
-export const findLastRemoteBySymbol = (stockType: number) => (
-  ticker: string
+export const findLastAlphaVantageBySymbol = (stockType: number) => (
+  symbol: string
 ): Promise<Option<Stock>> =>
   got(
-    `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${ticker}&datatType=json&apikey=${process.env.ALPHAVANTAGE_KEY}`,
+    `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&datatType=json&apikey=${process.env.ALPHAVANTAGE_KEY}`,
     {
       retry: {
         calculateDelay: (retryParams) => retryParams.attemptCount * 60000,
@@ -105,7 +105,7 @@ const saveStock = ({
 
 
 export const findAndSave = (stockType: number) => (symbol: string) =>
-  findLastRemoteBySymbol(stockType)(symbol).then((optStock) =>
+  findLastAlphaVantageBySymbol(stockType)(symbol).then((optStock) =>
     pipe(
       optStock,
       foldO(
