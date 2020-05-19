@@ -150,22 +150,22 @@ const findAndSaveFII = findAndSave(StockType.FII.valueOf());
 export const syncStocks = () => {
   setTimeout(() => {
     findAndSaveStock("HYPE3.SAO");
-    // findAndSaveStock("RAIL3.SAO");
-    // findAndSaveStock("HBOR3.SAO");
-    // findAndSaveStock("VVAR3.SAO");
-    // findAndSaveStock("EZTC3.SAO");
+    findAndSaveStock("RAIL3.SAO");
+    findAndSaveStock("HBOR3.SAO");
+    findAndSaveStock("VVAR3.SAO");
+    findAndSaveStock("EZTC3.SAO");
   }, 0);
 
-  // setTimeout(() => {
-  //   findAndSaveFII("RBRR11.SAO");
-  //   findAndSaveFII("VISC11.SAO");
-  //   findAndSaveFII("HGLG11.SAO");
-  //   findAndSaveFII("HABT11.SAO");
-  // }, 2 * ONE_MINUTE);
+  setTimeout(() => {
+    findAndSaveFII("RBRR11.SAO");
+    findAndSaveFII("VISC11.SAO");
+    findAndSaveFII("HGLG11.SAO");
+    findAndSaveFII("HABT11.SAO");
+  }, 2 * ONE_MINUTE);
 
-  // setTimeout(() => {
-  //   findAndSaveFII("HGRU11.SAO");
-  //   findAndSaveStock("ITSA4.SAO");
-  //   findAndSaveStock("BOVA11.SAO");
-  // }, 4 * ONE_MINUTE);
+  setTimeout(() => {
+    findAndSaveFII("HGRU11.SAO");
+    findAndSaveStock("ITSA4.SAO");
+    findAndSaveStock("BOVA11.SAO");
+  }, 4 * ONE_MINUTE);
 };
