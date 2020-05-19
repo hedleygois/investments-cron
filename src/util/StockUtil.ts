@@ -14,7 +14,9 @@ import { StockType } from "../model/StockType";
 export const ONE_MINUTE = 60001;
 export const ONE_HOUR = 60 * ONE_MINUTE;
 
-export const fromAdvantageStockToStock = (stockType: number) => (raw: any): Option<Stock> =>
+export const fromAdvantageStockToStock = (stockType: number) => (
+  raw: any
+): Option<Stock> =>
   tryCatch<Stock>(() => {
     const parsed = JSON.parse(raw);
     const data = parsed["Global Quote"];
@@ -30,7 +32,7 @@ export const fromAdvantageStockToStock = (stockType: number) => (raw: any): Opti
       previous: Number(data[keys[7]]),
       changeAbs: Number(data[keys[8]]),
       changeP: Number(data[keys[9]].slice(0, data[keys[9]].length - 1)),
-      stockType
+      stockType,
     };
   });
 
@@ -46,7 +48,7 @@ export const findLastAlphaVantageBySymbol = (stockType: number) => (
       },
     }
   )
-    .then((value) => fromAdvantageStockToStock(stockType)(value))
+    .then((value) => fromAdvantageStockToStock(stockType)(value.body))
     .catch((e) => {
       console.error(e);
       return none;
@@ -63,6 +65,7 @@ const saveStock = ({
   changeAbs,
   changeP,
   volume,
+  stockType,
 }: Stock): Promise<Either<Error, any>> => {
   return got(`https://investments-graphql.herokuapp.com/v1/graphql`, {
     retry: {
@@ -88,7 +91,8 @@ const saveStock = ({
         changeAbs,
         changeP,
         volume,
-        active: true
+        stockType,
+        active: true,
       },
     }),
   })
@@ -102,7 +106,6 @@ const saveStock = ({
     )
     .catch(left);
 };
-
 
 export const findAndSave = (stockType: number) => (symbol: string) =>
   findLastAlphaVantageBySymbol(stockType)(symbol).then((optStock) =>
@@ -147,22 +150,22 @@ const findAndSaveFII = findAndSave(StockType.FII.valueOf());
 export const syncStocks = () => {
   setTimeout(() => {
     findAndSaveStock("HYPE3.SAO");
-    findAndSaveStock("RAIL3.SAO");
-    findAndSaveStock("HBOR3.SAO");
-    findAndSaveStock("VVAR3.SAO");
-    findAndSaveStock("EZTC3.SAO");
+    // findAndSaveStock("RAIL3.SAO");
+    // findAndSaveStock("HBOR3.SAO");
+    // findAndSaveStock("VVAR3.SAO");
+    // findAndSaveStock("EZTC3.SAO");
   }, 0);
 
-  setTimeout(() => {
-    findAndSaveFII("RBRR11.SAO");
-    findAndSaveFII("VISC11.SAO");
-    findAndSaveFII("HGLG11.SAO");
-    findAndSaveFII("HABT11.SAO");
-  }, 2 * ONE_MINUTE);
+  // setTimeout(() => {
+  //   findAndSaveFII("RBRR11.SAO");
+  //   findAndSaveFII("VISC11.SAO");
+  //   findAndSaveFII("HGLG11.SAO");
+  //   findAndSaveFII("HABT11.SAO");
+  // }, 2 * ONE_MINUTE);
 
-  setTimeout(() => {
-    findAndSaveFII("HGRU11.SAO");
-    findAndSaveStock("ITSA4.SAO");
-    findAndSaveStock("BOVA11.SAO");
-  }, 4 * ONE_MINUTE);
+  // setTimeout(() => {
+  //   findAndSaveFII("HGRU11.SAO");
+  //   findAndSaveStock("ITSA4.SAO");
+  //   findAndSaveStock("BOVA11.SAO");
+  // }, 4 * ONE_MINUTE);
 };

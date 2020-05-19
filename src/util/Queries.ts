@@ -16,7 +16,7 @@ export const QUERY_BY_TICKER = `
 `;
 
 export const SAVE_STOCK = `
-  mutation SaveStock($symbol: String!, $open: float8, $price: float8!, $high: float8, $low: float8, $volume: float8, $latest: timestamptz, $previous: float8, $changeAbs: float8, $changeP: float8, $active: Boolean, $stockType: Integer) {
+  mutation SaveStock($symbol: String!, $open: float8, $price: float8!, $high: float8, $low: float8, $volume: float8, $latest: timestamptz, $previous: float8, $changeAbs: float8, $changeP: float8, $active: Boolean, $stockType: Int) {
     insert_Stock(objects: {symbol: $symbol, open: $open, price: $price, high: $high, low: $low, volume: $volume, latest: $latest, previous: $previous, changeAbs: $changeAbs, changeP: $changeP, active: $active, stock_type: $stockType}) {
       affected_rows,
       returning {
