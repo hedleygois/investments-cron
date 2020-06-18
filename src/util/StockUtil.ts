@@ -152,8 +152,8 @@ export const syncStocks = () => {
     findAndSaveStock("HYPE3.SAO");
     findAndSaveStock("RAIL3.SAO");
     findAndSaveStock("HBOR3.SAO");
-    findAndSaveStock("VVAR3.SAO");
     findAndSaveStock("EZTC3.SAO");
+    findAndSaveStock("SAPR11.SAO");
   }, 0);
 
   setTimeout(() => {
