@@ -92,7 +92,6 @@ const saveStock = ({
         changeP,
         volume,
         stockType,
-        active: true,
       },
     }),
   })
