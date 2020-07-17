@@ -9,7 +9,7 @@ import {
 
 
   saveStock
-} from "../util/StockUtil";
+} from "../api/StockApi";
 
 const isHasuraSuccess = (
   data: HasuraStockSaveSuccessResponse | HasuraStockSaveErrorResponse

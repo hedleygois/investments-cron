@@ -1,6 +1,6 @@
 import got from "got";
-import * as util from "../../util/StockUtil";
-import stockJson from "../../util/__fixture__/Stock.json";
+import * as util from "../../api/StockApi";
+import stockJson from "../../api/__fixture__/Stock.json";
 import * as service from "../StockService";
 import { expectCt } from "helmet";
 
