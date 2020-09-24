@@ -5,7 +5,7 @@
   "main": "App.js",
   "scripts": {
     "build": "./node_modules/typescript/bin/tsc",
-    "start": "npm run build && node build/App.js",
+    "start": "npm run build && node dist/App.js",
     "dev": "ts-node-dev src/App.ts",
     "test": "jest -c jest.config.js",
     "test:watch": "jest -c jest.config.js --watchAll"
